@@ -1,0 +1,19 @@
+services:
+    cuda-torch:
+        container_name: cuda-torch-2
+        image: pytorch/pytorch:latest
+        ipc: host
+        build: .
+        ports:
+            - 8888:8888
+        volumes:
+            - ./:/workspace/CDCGAN
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: 1
+                          capabilities: [gpu]
+
+        command: jupyter notebook --allow-root --ip=0.0.0.0 --no-browser
